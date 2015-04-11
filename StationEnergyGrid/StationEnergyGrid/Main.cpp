@@ -33,16 +33,16 @@ int main()
 	//	window.draw(shape);
 	//	window.display();
 	
-	Board board;
+	//Board board;
 
-	int i = board.placeLine(1);
-	i = board.placeLine(9);
-	i = board.placeLine(11);
-	i = board.placeLine(19);
-	
-	std::cout << i << "\n";
+	//int i = board.placeLine(1);
+	//i = board.placeLine(9);
+	//i = board.placeLine(19);
+	//i = board.placeLine(11);
+	//
+	//std::cout << i << "\n";
 
-	printBoard(board);
+	//printBoard(board);
 
 	return 0;
 }

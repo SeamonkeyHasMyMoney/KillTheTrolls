@@ -11,24 +11,19 @@ void printBoard(std::bitset<BOARD_SIZE> b)
 		}
 		std::cout << b[i] << " ";
 	}
+	std::cout << "\n";
+	std::cout << "\n";
 }
 
-const std::bitset<BOARD_SIZE> winMask(std::string
-(
-	"010000000"
-	"101000000"
-	"010000000"
-	"000000000"
-	"000000000"
-	"000000000"
-	"000000000"
-	"000000000"
-	"000000000"
-));
+std::bitset<BOARD_SIZE> winMask;
 
 Board::Board()
 {
 	bitBoard.reset();
+	winMask.set(1);
+	winMask.set(9);
+	winMask.set(11);
+	winMask.set(19);
 }
 
 int Board::placeLine(int pos)
@@ -56,23 +51,7 @@ bool Board::pointScored(int pos)
 	//Horizontal
 	if ((pos / BOARD_DIM) % 2 == 0)
 	{
-		std::bitset<BOARD_SIZE> btemp;
-		if (pos - BOARD_DIM > 0)
-		{
-			btemp = (winMask << ((pos - 1) - BOARD_DIM));
-			printBoard(btemp);
-			if ((btemp & bitBoard) == btemp)
-				return true;
-		}
-		std::cout << "\n\n";
-		if (pos + BOARD_DIM < BOARD_SIZE)
-		{
-			btemp = (winMask << ((pos - 1) - BOARD_DIM));
-			printBoard(btemp);
-			if ((btemp & bitBoard) == btemp)
-				return true;
-		}
-		if ((pos - BOARD_DIM > 0 && ((winMask << ((pos - 1) - BOARD_DIM)) & bitBoard) == (winMask << ((pos - 1) - BOARD_DIM))) ||
+		if ((pos - BOARD_DIM*2 > 0 && ((winMask << ((pos - 1) - BOARD_DIM*2)) & bitBoard) == (winMask << ((pos - 1) - BOARD_DIM*2))) ||
 			(pos + BOARD_DIM < BOARD_SIZE && ((winMask << (pos - 1)) & bitBoard) == (winMask << (pos - 1))))
 			return true;
 	}
