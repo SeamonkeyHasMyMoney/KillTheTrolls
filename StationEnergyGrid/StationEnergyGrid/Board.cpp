@@ -16,6 +16,7 @@ void printBoard(std::bitset<BOARD_SIZE> b)
 }
 
 std::bitset<BOARD_SIZE> winMask;
+std::bitset<BOARD_SIZE> endMask;
 
 Board::Board()
 {
@@ -24,6 +25,11 @@ Board::Board()
 	winMask.set(9);
 	winMask.set(11);
 	winMask.set(19);
+
+	for (int i = 1; i < BOARD_SIZE; i += 2)
+	{
+		endMask.set(i);
+	}
 }
 
 int Board::placeLine(int pos)
@@ -44,6 +50,11 @@ int Board::placeLine(int pos)
 std::bitset<BOARD_DIM*BOARD_DIM> Board::getBoard()
 {
 	return bitBoard;
+}
+
+bool Board::noMoves()
+{
+	return(bitBoard == endMask);
 }
 
 bool Board::pointScored(int pos)
