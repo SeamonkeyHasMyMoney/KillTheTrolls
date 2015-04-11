@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "Player.h"
 
@@ -14,7 +15,7 @@ public:
 
 private:
 
-	void renderBoard();
+	void renderBoard(sf::RenderWindow& window);
 
 	Board board;
 	Player* player1;
