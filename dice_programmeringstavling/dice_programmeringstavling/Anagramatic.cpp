@@ -24,6 +24,6 @@ bool isAnagram(std::string s1, std::string s2)
 
 int getAnagrams(std::vector<std::string>& anagrams)
 {
-	
+	return 0;
 }
 
