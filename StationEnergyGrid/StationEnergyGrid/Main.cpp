@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
+#include "Game.h"
 #include <iostream>
 
 void printBoard(Board board) 
@@ -43,6 +44,8 @@ int main()
 	//std::cout << i << "\n";
 
 	//printBoard(board);
+	Game game;
+	game.run();
 
 	return 0;
 }

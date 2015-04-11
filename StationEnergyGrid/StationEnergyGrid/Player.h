@@ -3,8 +3,9 @@
 
 class Player {
 public:
+	
+	virtual int doMove(Board board);
 
-private:
 };
 
 #endif
