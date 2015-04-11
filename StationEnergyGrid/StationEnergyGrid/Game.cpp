@@ -1,6 +1,23 @@
 #include "Game.h"
+#include <Windows.h>
+#include <iostream>
 
+void printBoard2(Board board)
+{
+	std::bitset<BOARD_SIZE> b = board.getBoard();
+	for (int i = 0; i < BOARD_SIZE; i++)
+	{
+		if (i%BOARD_DIM == 0)
+		{
+			std::cout << "\n";
+		}
+		std::cout << b[i] << " ";
+	}
 
+	std::cout << "\n";
+	std::cout << "\n";
+	std::cout << "\n";
+}
 
 Game::Game()
 {
@@ -11,18 +28,25 @@ Game::Game(Player* player1, Player* player2)
 {
 	this->player1 = player1;
 	this->player2 = player2;
+	score1 = 0;
+	score2 = 0;
 }
 
 void Game::run()
 {
+	std::srand(std::time(0));
 	sf::RenderWindow window(sf::VideoMode(800, 800), "Station Energy Grid");
 	bool player1Turn = true;
+
+	int player1wins = 0;
+	int player2wins = 0;
+	int numberOfGames = 0;
 
 	while (window.isOpen())
 	{
 		if (!board.noMoves())
 		{
-			if (player1)
+			if (player1Turn)
 			{
 				int move = player1->doMove(board);
 				int correct = board.placeLine(move);
@@ -33,6 +57,7 @@ void Game::run()
 				else if (correct > 0)
 				{
 					score1++;
+					std::cout << "Player1: " << score1 << "\n";
 				}
 			}
 			else
@@ -46,8 +71,31 @@ void Game::run()
 				else if (correct > 0)
 				{
 					score2++;
+					std::cout << "Player2: " << score2 << "\n";
 				}
 			}
+		}
+		else if (score1 || score2)
+		{
+			std::cout << "*** Final score ***\n";
+			std::cout << "Smarter: " << score1 << "\n";
+			std::cout << "Random: " << score2 << "\n";
+			if (score1 > score2)
+			{
+				player1wins++;
+			}
+			else if (score2 > score1)
+			{
+				player2wins++;
+			}
+			score1 = 0;
+			score2 = 0;
+			numberOfGames++;
+
+			std::cout << "*** Statistics ***\n";
+			std::cout << "Smarter: " << player1wins << "/" << numberOfGames << "\n";
+			std::cout << "Random: " << player2wins << "/" << numberOfGames << "\n";
+			board.clear();
 		}
 		sf::Event event;
 		while (window.pollEvent(event))

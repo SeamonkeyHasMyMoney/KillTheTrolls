@@ -1,5 +1,6 @@
 #include "ComPlayer.h"
 #include "Board.h"
+#include <iostream>
 
 ComPlayer::ComPlayer()
 {
@@ -7,54 +8,21 @@ ComPlayer::ComPlayer()
 
 int ComPlayer::doMove(Board board)
 {
-	return minimax(board, 0, 4, true, 4);
-}
-
-int ComPlayer::minimax(Board board, int scoreSum, int depth, bool maximizingPlayer, int maxDepth)
-{
-	if (depth <= 0 || board.noMoves())
-	{
-		return scoreSum;
-	}
 	std::vector<int> moves = getMoves(board);
-	if (maximizingPlayer)
+
+	int bestScore = -1;
+	int bestMove = moves[0];
+	for each(int move in moves)
 	{
-		int bestScore = -100;
-		int bestMove;
-		for each(int move in moves)
+		Board tempBoard = board;
+		int score = tempBoard.placeLine(move);
+		if (score > bestScore)
 		{
+			bestScore = score;
 			bestMove = move;
-			int score = board.placeLine(move);
-			scoreSum += score;
-			int retScore = minimax(board, scoreSum, depth - 1, !maximizingPlayer, maxDepth);
-			bestScore = retScore > bestScore ? retScore : bestScore;
-			if (retScore > bestScore)
-			{
-				bestScore = retScore;
-				bestMove = move;
-			}
-		}
-		if (depth == maxDepth)
-		{
-			return bestMove;
-		}
-		else
-		{
-			return bestScore;
 		}
 	}
-	else
-	{
-		int bestScore = +100;
-		for each(int move in moves)
-		{
-			int score = board.placeLine(move);
-			scoreSum -= score;
-			int retScore = minimax(board, scoreSum, depth - 1, !maximizingPlayer, maxDepth);
-			bestScore = retScore < bestScore ? retScore : bestScore;
-		}
-		return bestScore;
-	}
+	return bestMove;
 }
 
 std::vector<int> ComPlayer::getMoves(Board board)

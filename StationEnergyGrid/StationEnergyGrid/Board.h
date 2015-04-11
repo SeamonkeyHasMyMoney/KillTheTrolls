@@ -13,6 +13,7 @@ public:
 	int placeLine(int pos);
 	std::bitset<BOARD_SIZE> getBoard();
 	bool noMoves();
+	void clear();
 
 private:
 	

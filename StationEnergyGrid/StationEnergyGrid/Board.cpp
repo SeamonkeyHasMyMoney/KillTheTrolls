@@ -69,9 +69,14 @@ bool Board::pointScored(int pos)
 	//Vertical
 	else
 	{
-		if (((pos + 2) < BOARD_SIZE && ((winMask << (pos)) & bitBoard) == (winMask << (pos))) ||
-			((pos - 2) > 0 && ((winMask << pos - BOARD_DIM - 2) & bitBoard) == (winMask << pos - BOARD_DIM - 2)))
+		if (((pos + 2) < BOARD_SIZE && (pos%BOARD_DIM < (BOARD_DIM -1)) && ((winMask << (pos)) & bitBoard) == (winMask << (pos))) ||
+			((pos - 2) > 0 && (pos%BOARD_DIM > 0) && ((winMask << pos - BOARD_DIM - 2) & bitBoard) == (winMask << pos - BOARD_DIM - 2)))
 			return true;
 	}
 	return false;
+}
+
+void Board::clear()
+{
+	bitBoard.reset();
 }
