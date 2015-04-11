@@ -16,7 +16,49 @@ Game::Game(Player* player1, Player* player2)
 void Game::run()
 {
 	sf::RenderWindow window(sf::VideoMode(800, 800), "Station Energy Grid");
-	renderBoard(window);
+	bool player1Turn = true;
+
+	while (window.isOpen())
+	{
+		if (!board.noMoves())
+		{
+			if (player1)
+			{
+				int move = player1->doMove(board);
+				int correct = board.placeLine(move);
+				if (correct == 0)
+				{
+					player1Turn = false;
+				}
+				else if (correct > 0)
+				{
+					score1++;
+				}
+			}
+			else
+			{
+				int move = player2->doMove(board);
+				int correct = board.placeLine(move);
+				if (correct == 0)
+				{
+					player1Turn = true;
+				}
+				else if (correct > 0)
+				{
+					score2++;
+				}
+			}
+		}
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		window.clear();
+		renderBoard(window);
+		window.display();
+	}
 }
 
 void Game::renderBoard(sf::RenderWindow& window)
@@ -68,20 +110,6 @@ void Game::renderBoard(sf::RenderWindow& window)
 		shape.setPosition(posX, posY);
 		shapes.push_back(shape);
 	}
-
-
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		window.clear();
-		for (auto shape : shapes)
-			window.draw(shape);
-		window.display();
-	}
+	for (auto shape : shapes)
+		window.draw(shape);
 }

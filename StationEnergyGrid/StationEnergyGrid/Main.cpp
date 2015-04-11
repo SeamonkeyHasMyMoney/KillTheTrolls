@@ -22,13 +22,10 @@ void printBoard(Board board)
 int main()
 {
 	std::srand(std::time(NULL));
-	sf::RenderWindow window(sf::VideoMode(200, 200), "Hello World!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
 
-	ComPlayer player1;
-	RandomPlayer player2;
-	Board board;
+	ComPlayer *player1 = new ComPlayer;
+	RandomPlayer *player2 = new RandomPlayer;
+	/*Board board;
 	bool player1Turn = true;
 
 	int score1 = 0;
@@ -84,7 +81,7 @@ int main()
 		window.clear();
 		window.draw(shape);
 		window.display();
-	}
+	}*/
 
 	//Board board;
 
@@ -96,8 +93,8 @@ int main()
 	//std::cout << i << "\n";
 
 	//printBoard(board);
-	//Game game;
-	//game.run();
+	Game game(player1, player2);
+	game.run();
 
 	return 0;
 }
